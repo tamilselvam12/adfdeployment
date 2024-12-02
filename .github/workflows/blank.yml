@@ -1,0 +1,46 @@
+name: Deploy ADF Linked Services
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Log in to Azure
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+    # Set Azure subscription
+    - name: Set Azure Subscription
+      run: |
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Deploy linked services
+    - name: Deploy Linked Services
+      run: |
+        # Define variables
+        RESOURCE_GROUP="your-resource-group"
+        ADF_NAME="your-adf-name"
+        LINKED_SERVICES_DIR="path/to/linkedservices"
+
+        # Deploy each linked service
+        for file in $LINKED_SERVICES_DIR/*.json; do
+          echo "Deploying $file..."
+          az datafactory linked-service create \
+            --resource-group $RESOURCE_GROUP \
+            --factory-name $ADF_NAME \
+            --linked-service-name $(basename $file .json) \
+            --properties @$file
+        done
