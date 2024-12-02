@@ -15,18 +15,9 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    # Log in to Azure
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        client-secret: ${{ secrets.SERVICE_PRINCIPAL_KEY }}
-
-    # Set Azure subscription
-    - name: Set Azure Subscription
+    - name: Login to Azure
       run: |
-        az account set --subscription ${{ secrets.SUBSCRIPTIONS_ID }}
+        az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
 
     # Deploy linked services
     - name: Deploy Linked Services
