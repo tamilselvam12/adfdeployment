@@ -18,22 +18,22 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        client-id: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        client-secret: ${{ secrets.SERVICE_PRINCIPAL_KEY }}
 
     # Set Azure subscription
     - name: Set Azure Subscription
       run: |
-        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az account set --subscription ${{ secrets.SUBSCRIPTIONS_ID }}
 
     # Deploy linked services
     - name: Deploy Linked Services
       run: |
         # Define variables
-        RESOURCE_GROUP="your-resource-group"
-        ADF_NAME="your-adf-name"
-        LINKED_SERVICES_DIR="path/to/linkedservices"
+        RESOURCE_GROUP="rg-adf-poc"
+        ADF_NAME="adf-deployment-poc"
+        LINKED_SERVICES_DIR="linkedservices"
 
         # Deploy each linked service
         for file in $LINKED_SERVICES_DIR/*.json; do
