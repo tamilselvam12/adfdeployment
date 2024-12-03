@@ -17,7 +17,7 @@ jobs:
 
     - name: Login to Azure
       run: |
-        az login --service-principal -username ${{ secrets.SERVICE_PRINCIPAL_ID }} -password ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
+        az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
 
 
     - name: Deploy Linked Services
