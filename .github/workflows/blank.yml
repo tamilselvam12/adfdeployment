@@ -17,7 +17,7 @@ jobs:
 
     - name: Login to Azure
       run: |
-        az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
+        az login --service-principal -u "f2919a1c-7723-49d9-a679-874c1aa5dc00" -p "xHI8Q~z4uB5H4Xl9-yjqEuPMg2aPRiLLwAnRhcTE" --tenant "6d51934d-cd16-4aa4-8faf-18a60cfc6ae7"
 
 
     - name: Deploy Linked Services
@@ -26,13 +26,14 @@ jobs:
         RESOURCE_GROUP="rg-adf-poc"
         ADF_NAME="adf-deployment-poc"
         LINKED_SERVICES_DIR="linkedservices"
-
-        # Deploy each linked service
-        for file in $LINKED_SERVICES_DIR/*.json; do
-          echo "Deploying $file..."
-          az datafactory linked-service create \
-            --resource-group $RESOURCE_GROUP \
-            --factory-name $ADF_NAME \
-            --linked-service-name $(basename $file .json) \
-            --properties @$file
-        done
+        echo "Deploying $file..."
+        
+        # # Deploy each linked service
+        # for file in $LINKED_SERVICES_DIR/*.json; do
+        #   echo "Deploying $file..."
+        #   az datafactory linked-service create \
+        #     --resource-group $RESOURCE_GROUP \
+        #     --factory-name $ADF_NAME \
+        #     --linked-service-name $(basename $file .json) \
+        #     --properties @$file
+        # done
